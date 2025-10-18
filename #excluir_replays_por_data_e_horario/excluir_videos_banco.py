@@ -62,3 +62,4 @@ if __name__ == "__main__":
         print("Uso: python excluir_videos_banco.py DD-MM-YYYY [ou DD-MM-YYYY_HH-MM-SS]")
     else:
         excluir_registros_wp_replays(sys.argv[1])
+        

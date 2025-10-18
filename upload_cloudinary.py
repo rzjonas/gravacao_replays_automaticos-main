@@ -172,3 +172,4 @@ def processar_replays(timestamp_alvo=None):
 if __name__ == "__main__":
     timestamp_argumento = sys.argv[1] if len(sys.argv) > 1 else None
     processar_replays(timestamp_argumento)
+    

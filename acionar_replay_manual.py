@@ -240,3 +240,4 @@ if __name__ == "__main__":
     time.sleep(5) # Aguarda um tempo para garantir que os arquivos foram gravados
     
     executar_upload_cloudinary(HORARIO_REPLAY)
+    

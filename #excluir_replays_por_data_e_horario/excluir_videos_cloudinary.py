@@ -165,3 +165,4 @@ if __name__ == "__main__":
     
     # Chama a função principal que itera sobre as contas
     excluir_recursos_de_todas_as_contas(CLOUDINARY_FOLDER, data_hora_arg)
+    

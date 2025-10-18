@@ -212,3 +212,4 @@ if __name__ == "__main__":
     camera_id = sys.argv[1]
     timestamp_replay = sys.argv[2]
     criar_replay(camera_id, timestamp_replay)
+    

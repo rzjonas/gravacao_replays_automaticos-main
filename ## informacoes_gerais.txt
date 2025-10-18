@@ -31,4 +31,3 @@ python3 "/home/jonas-zanelato/codigos-gerais/inifiniteplay/gravacao_replays_auto
 python3 acionar_replay_manual.py "29-09-2025_20-19-26"
 
 -----------------------------------------------------
-
