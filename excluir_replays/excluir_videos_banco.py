@@ -13,12 +13,6 @@ def conectar_banco():
         return None
 
 def excluir_registros_wp_replays(data_hora):
-    """
-    Exclui registros da tabela wp_replays.
-    Aceita formatos:
-    - DD-MM-YYYY (exclui tudo da data)
-    - DD-MM-YYYY_HH-MM-SS (exclui específico)
-    """
     conn = conectar_banco()
     if not conn:
         return

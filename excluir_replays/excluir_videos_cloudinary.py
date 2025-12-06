@@ -4,7 +4,6 @@ from cloudinary.api import resources
 import sys
 import re
 
-# Importa as configurações do arquivo separado
 from config_excluir import CLOUDINARY_ACCOUNTS, CLOUDINARY_FOLDER
 
 def configurar_cloudinary(account_creds):
