@@ -239,7 +239,6 @@ def main():
         for camera_id, rtsp_url in [(1, config.CAMERA_1_RTSP_URL), (2, config.CAMERA_2_RTSP_URL)]:
             threading.Thread(target=gravar_video, args=(rtsp_url, camera_id), name=f"GravarCamera{camera_id}", daemon=True).start()
         
-        # Threads de backup foram removidas
         
         server_thread = threading.Thread(target=run_server, name="HTTPServer")
         server_thread.start()

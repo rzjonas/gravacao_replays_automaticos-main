@@ -9,7 +9,6 @@ import sys
 import logging
 from datetime import datetime, timezone, timedelta
 
-# Importa as bibliotecas do Cloudinary
 import cloudinary
 import cloudinary.uploader
 

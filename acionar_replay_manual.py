@@ -166,7 +166,6 @@ def criar_replay(camera_id, horario_alvo):
     musica_selecionada = selecionar_musica_por_timestamp(horario_alvo)
     print(f"Musica selecionada para camera {camera_id}: {os.path.basename(musica_selecionada)}")
 
-    # Comando final unificado com a lógica de 'replay.py'
     comando_final = [
         "ffmpeg", "-i", replay_temp, "-i", config.LOGO_PATH_LEFT, "-i", config.LOGO_PATH_RIGHT, "-i", config.LOGO_PATH,
         "-i", config.IMAGEM_RODAPE_2, "-i", musica_selecionada,

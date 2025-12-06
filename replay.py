@@ -6,7 +6,6 @@ import config
 import logging
 from datetime import datetime, timedelta
 
-# --- INÍCIO DA CONFIGURAÇÃO DE LOGGING ---
 replay_logger = logging.getLogger('replay_logger')
 replay_logger.setLevel(logging.INFO)
 replay_logger.propagate = False
