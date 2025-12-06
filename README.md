@@ -277,3 +277,4 @@ Este documento fornece toda a base técnica necessária para implantação
 completa do sistema InfinitePlay em qualquer computador ou VPS Linux.
 Serve como documentação técnica e deve acompanhar o projeto para
 futuras instalações.
+ 

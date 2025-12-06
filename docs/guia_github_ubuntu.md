@@ -95,3 +95,4 @@ Comandos que te ajudam a verificar o estado e a corrigir problemas comuns.
     git log
 
         O que faz: Mostra o histórico de todos os commits feitos, com suas mensagens, autores e datas. 
+ 
