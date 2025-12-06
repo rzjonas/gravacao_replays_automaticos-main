@@ -13,6 +13,8 @@ edicao/
 musicas/
 replays/
 
+config.py
+
 .DS_Store
 Thumbs.db
 
