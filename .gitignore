@@ -17,3 +17,5 @@ config.py
 
 .DS_Store
 Thumbs.db
+
+*.sh
