@@ -14,7 +14,6 @@ if not replay_logger.handlers:
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - (%(funcName)s) - %(message)s')
     handler.setFormatter(formatter)
     replay_logger.addHandler(handler)
-# --- FIM DA CONFIGURAÇÃO DE LOGGING ---
 
 def validate_timestamp(timestamp):
     if not timestamp or len(timestamp) != 19: return False
@@ -71,7 +70,6 @@ def encontrar_video_e_offset(video_dir, timestamp_replay):
         replay_logger.error(f"Timestamp do replay em formato invalido: {timestamp_replay}")
         return None, None
 
-    # Define as pastas do dia atual e do dia anterior para busca
     data_atual_str = dt_alvo.strftime("%d-%m-%Y")
     data_anterior_str = (dt_alvo - timedelta(days=1)).strftime("%d-%m-%Y")
     
@@ -93,7 +91,6 @@ def encontrar_video_e_offset(video_dir, timestamp_replay):
     video_relevante = None
     dt_inicio_relevante = None
 
-    # Encontra o vídeo que começou mais recentemente, mas ANTES do timestamp do replay
     for video_path in videos_candidatos:
         try:
             nome_arquivo = os.path.basename(video_path)

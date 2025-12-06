@@ -1,7 +1,6 @@
 import sys
 import re
 
-# Constante do Drive foi removida
 CLOUDINARY_FOLDER = "arena_cema_esportes"
 
 def limpar_registros(data_hora, usar_cloudinary=False, usar_banco=False):
@@ -11,9 +10,6 @@ def limpar_registros(data_hora, usar_cloudinary=False, usar_banco=False):
     """
     print(f"--- Iniciando processo de limpeza para '{data_hora}' ---")
 
-    # Bloco de execução para o Google Drive foi completamente removido
-
-    # Bloco de execução para o Cloudinary
     if usar_cloudinary:
         print("\n[SERVIÇO: Cloudinary]")
         try:
@@ -24,7 +20,6 @@ def limpar_registros(data_hora, usar_cloudinary=False, usar_banco=False):
         except Exception as e:
             print(f"[ERRO Cloudinary] Não foi possível concluir a operação: {e}")
 
-    # Bloco de execução para o Banco de Dados
     if usar_banco:
         print("\n[SERVIÇO: Banco de Dados]")
         try:
@@ -42,7 +37,6 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     
     if len(args) < 2:
-        # A mensagem de uso foi atualizada para remover a menção ao --drive e --delete-temp
         print("\nUso: python limpar_registros.py <data_hora> <serviço(s)>")
         print("   <data_hora>:   DD-MM-YYYY ou DD-MM-YYYY_HH-MM-SS")
         print("   <serviço(s)>:  Pelo menos um dos seguintes: --cloudinary, --banco")
@@ -55,7 +49,6 @@ if __name__ == "__main__":
         print(f"\n[ERRO] Formato de data inválido: '{data_hora_arg}'. Use DD-MM-YYYY ou DD-MM-YYYY_HH-MM-SS.")
         sys.exit(1)
 
-    # A verificação dos flags do drive foi removida
     executar_cloudinary = "--cloudinary" in flags
     executar_banco = "--banco" in flags
 
@@ -67,5 +60,4 @@ if __name__ == "__main__":
         data_hora=data_hora_arg,
         usar_cloudinary=executar_cloudinary,
         usar_banco=executar_banco
-        # Parâmetros do drive foram removidos da chamada da função
     )

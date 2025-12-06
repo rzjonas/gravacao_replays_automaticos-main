@@ -12,32 +12,24 @@ from datetime import datetime, timezone, timedelta
 import cloudinary
 import cloudinary.uploader
 
-# --- INÍCIO DA CONFIGURAÇÃO DE LOGGING ---
-# Configura um logger específico para este script
 cloudinary_logger = logging.getLogger('cloudinary_logger')
 cloudinary_logger.setLevel(logging.INFO)
-cloudinary_logger.propagate = False # Impede que os logs se espalhem para o logger raiz
+cloudinary_logger.propagate = False
 
-# Cria um handler para escrever os logs em 'upload_cloudinary.log'
-# Garante que o handler não seja adicionado múltiplas vezes
 if not cloudinary_logger.handlers:
     handler = logging.FileHandler('upload_cloudinary.log', encoding='utf-8')
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     cloudinary_logger.addHandler(handler)
-# --- FIM DA CONFIGURAÇÃO DE LOGGING ---
 
 def backup_video(arquivo_path):
-    """
-    Copia o vídeo de replay para um diretório de backup diário.
-    """
+
     try:
         if not os.path.exists(arquivo_path):
             cloudinary_logger.warning(f"Arquivo de origem para backup não encontrado: {arquivo_path}")
             return
             
         arquivo_nome = os.path.basename(arquivo_path)
-        # Usa o horário local para criar a pasta de backup
         agora = datetime.now(timezone.utc).astimezone(timezone(timedelta(seconds=config.TIMEZONE_OFFSET)))
         data_diretorio = agora.strftime("%d-%m-%Y")
         
@@ -54,9 +46,7 @@ def backup_video(arquivo_path):
         cloudinary_logger.error(f"ERRO no backup do vídeo '{os.path.basename(arquivo_path)}': {e}", exc_info=True)
 
 def excluir_video(arquivo_path):
-    """
-    Exclui um arquivo de vídeo da pasta de replays.
-    """
+
     try:
         if os.path.exists(arquivo_path):
             os.remove(arquivo_path)

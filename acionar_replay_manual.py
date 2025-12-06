@@ -5,11 +5,7 @@ import sys
 from datetime import datetime, timedelta
 import threading
 import time
-
-# Importa as configurações centralizadas
 import config
-
-# --- LÓGICA DE SELEÇÃO DE MÚSICA (Utilizando TEMP_DIR do config.py) ---
 
 os.makedirs(config.TEMP_DIR, exist_ok=True)
 MUSICA_INDEX_FILE = os.path.join(config.TEMP_DIR, "musica_index.txt")
@@ -63,9 +59,7 @@ def limpar_arquivos_antigos_timestamp():
             os.remove(arquivo)
         except Exception as e:
             print(f"Erro ao apagar {arquivo}: {e}")
-
-# --- LÓGICA DE BUSCA DE VÍDEO (Adaptada do replay.py) ---
-
+            
 def encontrar_video_e_offset(video_dir, timestamp_replay):
     try:
         dt_alvo = datetime.strptime(timestamp_replay, "%d-%m-%Y_%H-%M-%S")
@@ -73,7 +67,6 @@ def encontrar_video_e_offset(video_dir, timestamp_replay):
         print(f"Erro: Timestamp do replay em formato invalido: {timestamp_replay}")
         return None, None
 
-    # Define as pastas do dia atual e do dia anterior para busca
     data_atual_str = dt_alvo.strftime("%d-%m-%Y")
     data_anterior_str = (dt_alvo - timedelta(days=1)).strftime("%d-%m-%Y")
     
@@ -95,7 +88,6 @@ def encontrar_video_e_offset(video_dir, timestamp_replay):
     video_relevante = None
     dt_inicio_relevante = None
 
-    # Encontra o vídeo que começou mais recentemente, mas ANTES do timestamp do replay
     for video_path in videos_candidatos:
         try:
             nome_arquivo = os.path.basename(video_path)
@@ -117,8 +109,6 @@ def encontrar_video_e_offset(video_dir, timestamp_replay):
 
     offset = (dt_alvo - dt_inicio_relevante).total_seconds()
     return video_relevante, offset
-
-# --- FUNÇÃO PRINCIPAL DE CRIAÇÃO DE REPLAY ---
 
 def criar_replay(camera_id, horario_alvo):
     video_dir = config.VIDEO_DIRS.get(camera_id)
@@ -211,7 +201,7 @@ def executar_upload_cloudinary(timestamp):
     if os.path.exists(caminho_upload):
         print(f"Executando upload para o Cloudinary para o timestamp {timestamp}...")
         try:
-            # Passa o timestamp como argumento para o script de upload
+
             subprocess.run(["python", caminho_upload, timestamp], check=True)
         except subprocess.CalledProcessError as e:
             print(f"Erro ao executar upload_cloudinary.py: {e}")
@@ -225,7 +215,6 @@ if __name__ == "__main__":
         
     HORARIO_REPLAY = sys.argv[1]
     
-    # Validação simples do formato do timestamp
     try:
         datetime.strptime(HORARIO_REPLAY, "%d-%m-%Y_%H-%M-%S")
     except ValueError:
@@ -236,7 +225,7 @@ if __name__ == "__main__":
     processar_todas_cameras(HORARIO_REPLAY)
     print("Processamento de geracao de replays concluido!")
 
-    time.sleep(5) # Aguarda um tempo para garantir que os arquivos foram gravados
+    time.sleep(5)
     
     executar_upload_cloudinary(HORARIO_REPLAY)
     

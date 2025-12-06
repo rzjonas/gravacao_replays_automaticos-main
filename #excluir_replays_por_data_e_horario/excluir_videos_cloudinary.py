@@ -4,11 +4,6 @@ from cloudinary.api import resources
 import sys
 import re
 
-# ==================================
-# CONFIGURAÇÃO DAS CONTAS CLOUDINARY
-# ==================================
-
-# Lista para armazenar as credenciais de múltiplas contas
 CLOUDINARY_ACCOUNTS = [
     {
         "name": "Conta 1 (contato.infiniteplay@hotmail.com)",
@@ -38,7 +33,6 @@ CLOUDINARY_ACCOUNTS = [
 
 CLOUDINARY_FOLDER = "arena_cema_esportes"
 
-# ==================================
 
 def configurar_cloudinary(account_creds):
     """
@@ -73,7 +67,6 @@ def _excluir_recursos_da_conta_atual(folder, data_hora):
     public_ids_para_excluir = []
     
     try:
-        # CASO 1: DATA E HORA ESPECÍFICA
         if "_" in data_hora:
             print(f"Buscando por timestamp específico via API de Busca...")
             expression = f'folder="{folder}" AND filename:"{data_hora}"'
@@ -83,7 +76,6 @@ def _excluir_recursos_da_conta_atual(folder, data_hora):
             if recursos:
                 public_ids_para_excluir = [res["public_id"] for res in recursos]
 
-        # CASO 2: DIA INTEIRO
         else:
             print(f"Buscando por dia inteiro via listagem de recursos...")
             all_resources = []

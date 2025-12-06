@@ -1,7 +1,6 @@
 import sys
 import io
 
-# Força a codificação de saída para UTF-8
 if sys.stdout.encoding != 'utf-8':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 if sys.stderr.encoding != 'utf-8':
@@ -16,9 +15,6 @@ from datetime import datetime, timezone, timedelta
 import config
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# --- INÍCIO DA CONFIGURAÇÃO DE LOGGING ---
-
-# 1. Logger de Orquestração (Nível Alto) - camera_recorder.log
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s.%(msecs)03d - %(levelname)-8s - ORQUESTRADOR - %(message)s',
@@ -30,7 +26,6 @@ logging.basicConfig(
 )
 orchestrator_logger = logging.getLogger(__name__)
 
-# 2. Logger do Servidor (Nível Detalhado) - infiniteplay_server.log
 server_logger = logging.getLogger('infiniteplay_server')
 server_logger.setLevel(logging.INFO)
 server_logger.propagate = False 
@@ -39,8 +34,6 @@ if not server_logger.handlers:
     formatter = logging.Formatter('%(asctime)s.%(msecs)03d - %(levelname)-8s - SERVIDOR - (%(funcName)s) - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     server_handler.setFormatter(formatter)
     server_logger.addHandler(server_handler)
-
-# --- FIM DA CONFIGURAÇÃO DE LOGGING ---
 
 
 replay_em_execucao = False
@@ -70,7 +63,6 @@ def gravar_video(camera_rtsp, camera_id):
 
     while True:
         try:
-            # Cria um subdiretório baseado na data atual
             agora = get_local_time()
             data_diretorio_str = agora.strftime("%d-%m-%Y")
             video_dir_diario = os.path.join(base_video_dir, data_diretorio_str)
@@ -256,4 +248,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
