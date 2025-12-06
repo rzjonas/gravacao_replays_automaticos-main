@@ -177,11 +177,11 @@ def criar_replay(camera_id, horario_alvo):
         "[4:v]scale=200:133[rodape_2];"
         "[v0][logo_left]overlay=45:25[vll];"
         "[vll][logo_right]overlay=main_w-overlay_w-45:35[vl];"
-        "[vl][rodape_2]overlay=main_w-overlay_w-45:main_h-overlay_h-25:enable='between(t,0,23)'[video_com_logos];"
+        f"[vl][rodape_2]overlay=main_w-overlay_w-45:main_h-overlay_h-25:enable='between(t,0,{config.REPLAY_DURATION})'[video_com_logos];"
         "[video_com_logos][p]concat=n=2:v=1:a=0[vid_concat];"
         "[5:a]aformat=sample_rates=48000:channel_layouts=stereo[aud_final]",
         "-map", "[vid_concat]", "-map", "[aud_final]",
-        "-c:v", "libx264", "-c:a", "aac", "-t", "28", "-preset", "veryfast", "-y", replay_path
+        "-c:v", "libx264", "-c:a", "aac", "-t", str(config.REPLAY_DURATION + 5), "-preset", "veryfast", "-y", replay_path
     ]
 
     print(f"Criando replay final da camera {camera_id} para o horario {horario_alvo}: {replay_path}")

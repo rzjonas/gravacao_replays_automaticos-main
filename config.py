@@ -52,13 +52,23 @@ TIMEZONE_OFFSET = -3 * 3600  # UTC-3 offset in seconds
 CLOUDINARY_FOLDER = "arena_cema_esportes"
 
 ######## google contato.infiniteplay@hotmail.com
-CLOUDINARY_CLOUD_NAME = "dctwqteag"
-CLOUDINARY_API_KEY = "113533831818486"
-CLOUDINARY_API_SECRET = "InV2XMHyT-XLSqeIZtcetirf5ec"
+# CLOUDINARY_CLOUD_NAME = "dctwqteag"
+# CLOUDINARY_API_KEY = "113533831818486"
+# CLOUDINARY_API_SECRET = "InV2XMHyT-XLSqeIZtcetirf5ec"
 
 ######## google rzjonass@gmail.com
 # CLOUDINARY_CLOUD_NAME = "dhvvqoo97"
 # CLOUDINARY_API_KEY = "636321146868464"
 # CLOUDINARY_API_SECRET = "_L8qDkDYEHjcUO5Gl4_jkb1D9nc"
+
+######## google larissaalexandresouza22@gmail.com
+# CLOUDINARY_CLOUD_NAME = "dqd4uqlba"
+# CLOUDINARY_API_KEY = "263855572543812"
+# CLOUDINARY_API_SECRET = "KPfMHzzI64_96gON-_WnalJgiNA"
+
+######## hotmail rzjonas@hotmail.com
+CLOUDINARY_CLOUD_NAME = "dkhhhattb"
+CLOUDINARY_API_KEY = "188136351513213"
+CLOUDINARY_API_SECRET = "mqiCrM48GikuD7BPc4OcR71smr0"
 
 # ==================================

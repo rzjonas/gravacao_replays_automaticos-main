@@ -1,6 +1,6 @@
-Guia Completo: Automação do InfinitePlay em um Novo PC
+Guia Completo: Automação da InfinitePlay em um Novo PC
 
-Este guia assume que você está em um sistema operacional baseado em Ubuntu/Debian.
+Este guia assume que você está em um sistema operacional baseado em Ubuntu.
 
 Parte A: Pré-requisitos (Preparação do Ambiente)
 
@@ -11,29 +11,19 @@ Antes de configurar a automação, garanta que o projeto esteja funcional no nov
         Transfira toda a pasta do projeto (contendo infiniteplay_server.py, replay.py, etc.) para o novo computador. Um bom local seria, por exemplo, /home/seu_usuario/gravacao_replays_automaticos-main. Anote este caminho, pois você o usará várias vezes.
 
     Instale o Python e o Ambiente Virtual:
-    Bash
-
 sudo apt update
 sudo apt install python3-venv
 
 Crie e Ative o Ambiente Virtual:
-
     Navegue até a pasta do seu projeto:
-    Bash
-
 # Exemplo:
 cd /home/seu_usuario/gravacao_replays_automaticos-main
 
 Crie o ambiente virtual (a pasta .venv):
-Bash
-
     python3 -m venv .venv
 
 Instale as Dependências do Python:
-
     Ative o ambiente virtual:
-    Bash
-
         source .venv/bin/activate
 
         Instale as bibliotecas necessárias (ex: mysql-connector-python, cloudinary). Se você tiver um arquivo requirements.txt, pode usar pip install -r requirements.txt.
@@ -51,12 +41,9 @@ Este script decide se o servidor principal deve ou não ser iniciado.
     Navegue até a pasta do seu projeto.
 
 Crie o arquivo:
-Bash
-
 nano start_if_in_window.sh
 
 Cole o conteúdo abaixo, lembrando de ajustar o caminho na penúltima linha para corresponder ao local do seu projeto no novo PC.
-Bash
 
 #!/bin/bash
 
@@ -81,17 +68,14 @@ fi
 
 Dê permissão de execução ao script:
 
-Bash
-
     chmod +x start_if_in_window.sh
+
 
 Passo 2: Criar o Serviço systemd (infiniteplay.service)
 
 Este arquivo ensina o sistema operacional a gerenciar seu script como um serviço.
 
     Crie o arquivo de serviço:
-
-Bash
 
 sudo nano /etc/systemd/system/infiniteplay.service
 
@@ -121,14 +105,9 @@ Ini, TOML
 
 Passo 3: Criar o Agendamento com cron
 
-O 
-
-cron será o responsável por ligar e desligar o serviço pontualmente nos dias de semana.
+O cron será o responsável por ligar e desligar o serviço pontualmente nos dias de semana.
 
     Crie o arquivo de agendamento:
-
-Bash
-
 sudo nano /etc/cron.d/infiniteplay-schedule
 
 Cole o conteúdo abaixo. Geralmente, este trecho não precisa de alterações.
@@ -144,27 +123,19 @@ Passo 4: Ativar e Iniciar o Serviço
 
 Agora, vamos registrar e habilitar tudo no sistema.
 
-    Recarregue o 
-
-    systemd para que ele leia o novo arquivo de serviço que você criou:
-
-Bash
+    Recarregue o systemd para que ele leia o novo arquivo de serviço que você criou:
 
 sudo systemctl daemon-reload
 
 Habilite o serviço para que ele seja iniciado automaticamente com o sistema (o script "porteiro" controlará se ele realmente deve rodar):
 
-Bash
-
 sudo systemctl enable infiniteplay.service
 
 (Opcional) Você pode iniciar o serviço manualmente pela primeira vez para testar:
-Bash
 
 sudo systemctl start infiniteplay.service
 
 (Opcional) E verificar seu status:
-Bash
 
     sudo systemctl status infiniteplay.service
 

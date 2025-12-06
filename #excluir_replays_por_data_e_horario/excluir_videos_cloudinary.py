@@ -21,8 +21,21 @@ CLOUDINARY_ACCOUNTS = [
         "cloud_name": "dhvvqoo97",
         "api_key": "636321146868464",
         "api_secret": "_L8qDkDYEHjcUO5Gl4_jkb1D9nc"
+    },
+    {
+        "name": "Conta 3 (larissaalexandresouza22@gmail.com)",
+        "cloud_name": "dqd4uqlba",
+        "api_key": "263855572543812",
+        "api_secret": "KPfMHzzI64_96gON-_WnalJgiNA"
+    },
+    {
+        "name": "Conta 4 (rzjonas@hotmail.com)",
+        "cloud_name": "dkhhhattb",
+        "api_key": "188136351513213",
+        "api_secret": "mqiCrM48GikuD7BPc4OcR71smr0"
     }
 ]
+
 CLOUDINARY_FOLDER = "arena_cema_esportes"
 
 # ==================================

@@ -1,25 +1,19 @@
 ## Token envio github: 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
 
-# Ambiente Virtual do Python
 .venv/
 venv/
 
-# Arquivos compilados do Python
 __pycache__/
 *.pyc
 
-# Arquivos de Log
 *.log
 
-# Pastas e arquivos temporários (baseado no seu projeto)
 arquivos_temporarios/
+edicao/
+musicas/
+replays/
 
-# Arquivos de sistema operacional
 .DS_Store
 Thumbs.db
-
-edicao/
-
-musicas/
 
 *.sh
