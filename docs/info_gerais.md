@@ -12,7 +12,9 @@ Antes de qualquer coisa, precisa sempre criar o ambiente virtual separado:
 
 source .venv/bin/activate
 
-## Esse é para instalar quando necessário: python3 -m venv .venv 
+Esse é para instalar quando necessário: 
+
+python3 -m venv .venv 
 
 -----------------------------------------------------
 
