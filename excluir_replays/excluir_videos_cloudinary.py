@@ -4,41 +4,10 @@ from cloudinary.api import resources
 import sys
 import re
 
-CLOUDINARY_ACCOUNTS = [
-    {
-        "name": "Conta 1 (contato.infiniteplay@hotmail.com)",
-        "cloud_name": "dctwqteag",
-        "api_key": "113533831818486",
-        "api_secret": "InV2XMHyT-XLSqeIZtcetirf5ec"
-    },
-    {
-        "name": "Conta 2 (rzjonass@gmail.com)",
-        "cloud_name": "dhvvqoo97",
-        "api_key": "636321146868464",
-        "api_secret": "_L8qDkDYEHjcUO5Gl4_jkb1D9nc"
-    },
-    {
-        "name": "Conta 3 (larissaalexandresouza22@gmail.com)",
-        "cloud_name": "dqd4uqlba",
-        "api_key": "263855572543812",
-        "api_secret": "KPfMHzzI64_96gON-_WnalJgiNA"
-    },
-    {
-        "name": "Conta 4 (rzjonas@hotmail.com)",
-        "cloud_name": "dkhhhattb",
-        "api_key": "188136351513213",
-        "api_secret": "mqiCrM48GikuD7BPc4OcR71smr0"
-    }
-]
-
-CLOUDINARY_FOLDER = "arena_cema_esportes"
-
+# Importa as configurações do arquivo separado
+from config_excluir import CLOUDINARY_ACCOUNTS, CLOUDINARY_FOLDER
 
 def configurar_cloudinary(account_creds):
-    """
-    Configura a API do Cloudinary com as credenciais de uma conta específica.
-    Retorna True se a configuração for bem-sucedida, False caso contrário.
-    """
     cloud_name = account_creds.get("cloud_name")
     api_key = account_creds.get("api_key")
     api_secret = account_creds.get("api_secret")
@@ -61,9 +30,6 @@ def configurar_cloudinary(account_creds):
         return False
 
 def _excluir_recursos_da_conta_atual(folder, data_hora):
-    """
-    Lógica interna para excluir vídeos de uma pasta na conta Cloudinary ATUALMENTE configurada.
-    """
     public_ids_para_excluir = []
     
     try:
@@ -132,9 +98,6 @@ def _excluir_recursos_da_conta_atual(folder, data_hora):
         print(f"Ocorreu um erro durante a operação com o Cloudinary: {e}")
 
 def excluir_recursos_de_todas_as_contas(folder, data_hora):
-    """
-    Orquestra a exclusão de vídeos em TODAS as contas Cloudinary configuradas.
-    """
     print("--- Iniciando processo de limpeza no Cloudinary em múltiplas contas ---")
     
     if not CLOUDINARY_ACCOUNTS:
@@ -168,6 +131,4 @@ if __name__ == "__main__":
         print("Use DD-MM-YYYY ou DD-MM-YYYY_HH-MM-SS")
         sys.exit(1)
     
-    # Chama a função principal que itera sobre as contas
     excluir_recursos_de_todas_as_contas(CLOUDINARY_FOLDER, data_hora_arg)
-    

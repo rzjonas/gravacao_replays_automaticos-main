@@ -1,18 +1,11 @@
 import mysql.connector
+import sys
 
-DB_HOST = "br898.hostgator.com.br"
-DB_USER = "infi0096_banco_de_dados"
-DB_PASSWORD = "Ab151012@@"
-DB_NAME = "infi0096_wp199"
+from config_excluir import DB_CONFIG
 
 def conectar_banco():
     try:
-        conn = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
-        )
+        conn = mysql.connector.connect(**DB_CONFIG)
         print("Conectado ao banco de dados!")
         return conn
     except mysql.connector.Error as err:
@@ -34,14 +27,12 @@ def excluir_registros_wp_replays(data_hora):
         cursor = conn.cursor()
         
         if "_" in data_hora:
-            # Formato com hora
             data_part, hora_part = data_hora.split("_")
             dia, mes, ano = data_part.split("-")
             hora_formatada = hora_part.replace("-", ":")
             data_formatada = f"{ano}-{mes}-{dia} {hora_formatada}"
             sql = "DELETE FROM wp_replays WHERE created_at = %s"
         else:
-            # Apenas data
             dia, mes, ano = data_hora.split("-")
             data_formatada = f"{ano}-{mes}-{dia}"
             sql = "DELETE FROM wp_replays WHERE DATE(created_at) = %s"
@@ -53,13 +44,13 @@ def excluir_registros_wp_replays(data_hora):
     except mysql.connector.Error as err:
         print(f"Erro ao excluir registros: {err}")
     finally:
-        cursor.close()
-        conn.close()
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conn' in locals():
+            conn.close()
 
 if __name__ == "__main__":
-    import sys
     if len(sys.argv) != 2:
         print("Uso: python excluir_videos_banco.py DD-MM-YYYY [ou DD-MM-YYYY_HH-MM-SS]")
     else:
         excluir_registros_wp_replays(sys.argv[1])
-        

@@ -1,13 +1,9 @@
 import sys
 import re
 
-CLOUDINARY_FOLDER = "arena_cema_esportes"
+from config_excluir import CLOUDINARY_FOLDER
 
 def limpar_registros(data_hora, usar_cloudinary=False, usar_banco=False):
-    """
-    Orquestra a limpeza de registros no Cloudinary e/ou Banco de Dados,
-    com base nos flags fornecidos.
-    """
     print(f"--- Iniciando processo de limpeza para '{data_hora}' ---")
 
     if usar_cloudinary:

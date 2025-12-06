@@ -14,6 +14,7 @@ musicas/
 replays/
 
 config.py
+config_excluir.py
 
 .DS_Store
 Thumbs.db
