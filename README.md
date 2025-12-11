@@ -76,47 +76,54 @@ O arquivo deve conter:
 ```
 import os
 
-BASE_DIR = 
+BASE_DIR = "/home/seu_usuario/infiniteplay"
 
-ARENA_NAME = 
+ARENA_NAME = "ArenaExemplo"
 
+# Mapeamento de IDs de Câmera para Diretórios de Gravação
 VIDEO_DIRS = {
-    "1": ,
-    "2": 
+    "1": os.path.join(BASE_DIR, "videos/camera1"),
+    "2": os.path.join(BASE_DIR, "videos/camera2")
 }
-REPLAY_DIR = os.path.join(BASE_DIR, "replays")
-REPLAY_BACKUP_DIR = 
-TEMP_DIR = os.path.join(BASE_DIR, "arquivos_temporarios")
 
+REPLAY_DIR = os.path.join(BASE_DIR, "replays")
+REPLAY_BACKUP_DIR = os.path.join(BASE_DIR, "replays_backup")
+TEMP_DIR = os.path.join(BASE_DIR, "temp")
+
+# Configuração de Assets de Edição
 EDICAO_DIR = os.path.join(BASE_DIR, "edicao")
 LOGO_PATH = os.path.join(EDICAO_DIR, "Patrocinadores1.mp4")
-LOGO_PATH_LEFT = os.path.join(EDICAO_DIR, "Logo_ArenaCemaEsportes.png")
-LOGO_PATH_RIGHT = os.path.join(EDICAO_DIR, "Logo_InfinitePlay.png")
-IMAGEM_RODAPE_1 = os.path.join(EDICAO_DIR, "Imagem_Rodape_1.png")
-IMAGEM_RODAPE_2 = os.path.join(EDICAO_DIR, "Imagem_Rodape_2.png")
+LOGO_PATH_LEFT = os.path.join(EDICAO_DIR, "Logo_Esquerda.png")
+LOGO_PATH_RIGHT = os.path.join(EDICAO_DIR, "Logo_Direita.png")
+FOOTER_IMAGE_2 = os.path.join(EDICAO_DIR, "Rodape_Promocional.png")
 
+# Configuração de Áudio
 MUSICAS_DIR = os.path.join(BASE_DIR, "musicas")
-MUSICAS = [
+MUSIC_TRACKS = [
     os.path.join(MUSICAS_DIR, f"musica{i}.mp3") for i in range(1, 11)
 ]
 
-DB_HOST = 
-DB_USER = 
-DB_PASSWORD = 
-DB_NAME = 
+# Banco de Dados MySQL
+DB_HOST = "localhost"
+DB_USER = "usuario_db"
+DB_PASSWORD = "senha_segura"
+DB_NAME = "nome_banco"
 
-CAMERA_1_RTSP_URL = 
-CAMERA_2_RTSP_URL = 
+# Streams RTSP
+CAMERA_1_RTSP_URL = "rtsp://user:pass@ip:port/stream1"
+CAMERA_2_RTSP_URL = "rtsp://user:pass@ip:port/stream2"
 
+# Parâmetros de Replay
 CLIP_INTERVAL = 600
-REPLAY_OFFSET = 3
-REPLAY_DURATION = 23
-TIMEZONE_OFFSET = -3 * 3600
+REPLAY_OFFSET = 3        # Ajuste fino de tempo (segundos)
+REPLAY_DURATION = 23     # Duração final do vídeo (segundos)
+TIMEZONE_OFFSET = -3 * 3600 # Fuso horário (ex: -3h para Brasil/Brasília)
 
-CLOUDINARY_FOLDER = 
-CLOUDINARY_CLOUD_NAME = 
-CLOUDINARY_API_KEY = 
-CLOUDINARY_API_SECRET = 
+# Credenciais Cloudinary
+CLOUDINARY_FOLDER = "pasta_replays"
+CLOUDINARY_CLOUD_NAME = "seu_cloud_name"
+CLOUDINARY_API_KEY = "sua_api_key"
+CLOUDINARY_API_SECRET = "seu_api_secret"
 ```
 
 ------------------------------------------------------------------------
