@@ -66,14 +66,26 @@ def select_music_by_timestamp(timestamp):
     return config.MUSIC_TRACKS[index]
 
 def cleanup_old_timestamp_files():
-    # Remove arquivos temporários antigos para evitar acúmulo de lixo no disco
+    # Remove arquivos de controle de música antigos (mantém só os 2 últimos)
     timestamp_files = sorted(glob.glob(os.path.join(config.TEMP_DIR, "music_by_timestamp_*.txt")), key=os.path.getmtime, reverse=True)
     for file_path in timestamp_files[2:]:
         try:
             os.remove(file_path)
-            replay_logger.info(f"Arquivo de indice de musica antigo removido: {os.path.basename(file_path)}")
+            replay_logger.info(f"Arquivo de controle antigo removido: {os.path.basename(file_path)}")
         except Exception as e:
-            replay_logger.error(f"Erro ao apagar arquivo de indice de musica {file_path}: {e}")
+            replay_logger.error(f"Erro ao apagar {file_path}: {e}")
+            
+    # NOVO: Varredura para apagar vídeos temporários (replay_temp_*.mp4) que ficaram orfãos
+    # Apaga se o arquivo tiver mais de 10 minutos de vida (600 segundos)
+    temp_replays = glob.glob(os.path.join(config.REPLAY_DIR, "replay_temp_*.mp4"))
+    for temp_file in temp_replays:
+        try:
+            idade_segundos = (datetime.now() - datetime.fromtimestamp(os.path.getmtime(temp_file))).total_seconds()
+            if idade_segundos > 600:
+                os.remove(temp_file)
+                replay_logger.info(f"Lixeiro: Video temporario orfao removido: {os.path.basename(temp_file)}")
+        except Exception as e:
+            pass
 
 def find_video_and_offset(video_dir, timestamp_replay):
     try:
@@ -189,6 +201,22 @@ def create_replay(camera_id, timestamp_replay):
         return
 
     selected_music = select_music_by_timestamp(timestamp_replay)
+    
+    # Garante que o arquivo de música existe e tem tamanho maior que 1KB (não está vazio). 
+    # Se falhar, pula para a próxima música automaticamente.
+    tentativas = 0
+    while (not os.path.exists(selected_music) or os.path.getsize(selected_music) < 1024) and tentativas < len(config.MUSIC_TRACKS):
+        replay_logger.warning(f"Musica invalida ou vazia detectada: {selected_music}. Pulando para a proxima...")
+        advance_index() # Avança a fila de músicas
+        
+        # Reescreve o controle temporário para que a câmera 2 saiba qual é a música corrigida
+        novo_index = get_next_index()
+        with open(os.path.join(config.TEMP_DIR, f"music_by_timestamp_{timestamp_replay}.txt"), "w") as f:
+            f.write(str(novo_index))
+            
+        selected_music = config.MUSIC_TRACKS[novo_index]
+        tentativas += 1
+
     replay_logger.info(f"Musica selecionada para {timestamp_replay}: {os.path.basename(selected_music)}")
     replay_logger.info(f"Aplicando edição e musica ao replay da câmera {camera_id} para o horario {timestamp_replay}...")
     
@@ -205,7 +233,7 @@ def create_replay(camera_id, timestamp_replay):
         "[0:v]scale=1920:1080[v0];"
         "[1:v]scale=135:135[logo_left];[2:v]scale=150:84[logo_right];"
         "[3:v]scale=1920:1080[p];"
-        "[4:v]scale=200:133[footer_2];"
+        "[4:v]scale=217:140[footer_2];"
         # Posiciona as logos e o rodapé sobre o vídeo (overlay)
         "[v0][logo_left]overlay=45:25[vll];"
         "[vll][logo_right]overlay=main_w-overlay_w-45:35[vl];"

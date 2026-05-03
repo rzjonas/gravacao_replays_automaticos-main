@@ -170,29 +170,48 @@ def create_replay(camera_id, target_timestamp):
         return
 
     selected_music = select_music_by_timestamp(target_timestamp)
+    
+    # Garante que o arquivo de música existe e tem tamanho maior que 1KB (não está vazio). 
+    # Se falhar, pula para a próxima música automaticamente.
+    tentativas = 0
+    while (not os.path.exists(selected_music) or os.path.getsize(selected_music) < 1024) and tentativas < len(config.MUSIC_TRACKS):
+        print(f"Musica invalida ou vazia detectada: {selected_music}. Pulando para a proxima...")
+        advance_index() # Avança a fila de músicas
+        
+        # Reescreve o controle temporário para que a câmera 2 saiba qual é a música corrigida
+        novo_index = get_next_index()
+        with open(os.path.join(config.TEMP_DIR, f"music_by_timestamp_{target_timestamp}.txt"), "w") as f:
+            f.write(str(novo_index))
+            
+        selected_music = config.MUSIC_TRACKS[novo_index]
+        tentativas += 1
+
     print(f"Musica selecionada para camera {camera_id}: {os.path.basename(selected_music)}")
 
     # Passo 2: Aplicação de filtros complexos (Logos, Rodapé e Áudio)
-    # Aqui fazemos a composição visual final do replay
     final_command = [
-        "ffmpeg", "-i", replay_temp, "-i", config.LOGO_PATH_LEFT, "-i", config.LOGO_PATH_RIGHT, "-i", config.LOGO_PATH,
-        "-i", config.FOOTER_IMAGE_2, "-i", selected_music,
+        "ffmpeg", "-i", replay_temp, 
+        "-i", config.LOGO_PATH_LEFT, 
+        "-i", config.LOGO_PATH_RIGHT, 
+        "-i", config.LOGO_PATH,
+        "-i", config.FOOTER_IMAGE_2, 
+        "-i", selected_music,
         "-filter_complex",
-        # Redimensionamento dos inputs
+        # Escala o vídeo principal e os elementos gráficos
         "[0:v]scale=1920:1080[v0];"
         "[1:v]scale=135:135[logo_left];[2:v]scale=150:84[logo_right];"
         "[3:v]scale=1920:1080[p];"
-        "[4:v]scale=200:133[footer_2];"
-        # Sobreposição (Overlay) das logos
+        "[4:v]scale=217:140[footer_2];"
+        # Posiciona as logos e o rodapé sobre o vídeo (overlay)
         "[v0][logo_left]overlay=45:25[vll];"
         "[vll][logo_right]overlay=main_w-overlay_w-45:35[vl];"
-        # O rodapé aparece apenas durante a duração do replay
-        f"[vl][footer_2]overlay=main_w-overlay_w-45:main_h-overlay_h-25:enable='between(t,0,{config.REPLAY_DURATION})'[video_with_logos];"
-        # Concatenação final
+        "[vl][footer_2]overlay=main_w-overlay_w-45:main_h-overlay_h-25:enable='between(t,0,23)'[video_with_logos];"
+        # Concatena o vídeo processado
         "[video_with_logos][p]concat=n=2:v=1:a=0[vid_concat];"
+        # Configura o áudio final
         "[5:a]aformat=sample_rates=48000:channel_layouts=stereo[aud_final]",
         "-map", "[vid_concat]", "-map", "[aud_final]",
-        "-c:v", "libx264", "-c:a", "aac", "-t", str(config.REPLAY_DURATION + 5), "-preset", "veryfast", "-y", replay_path
+        "-c:v", "libx264", "-c:a", "aac", "-t", "28", "-preset", "veryfast", "-y", replay_path
     ]
 
     print(f"Criando replay final da camera {camera_id} para o horario {target_timestamp}: {replay_path}")
